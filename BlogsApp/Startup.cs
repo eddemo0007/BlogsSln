@@ -61,6 +61,7 @@ namespace BlogsApp
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
             });
 
+            services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IPostService, PostService>();
         }
 

@@ -13,25 +13,28 @@ namespace BlogsApp.Services
 {
     public class PostService : IPostService
     {
-        private ApplicationDbContext context;
-        private ILogger<IPostService> logger;
-        public PostService(ApplicationDbContext context, ILogger<IPostService> logger)
+        private ApplicationDbContext _context;
+        private ILogger<IPostService> _logger;
+        private ICommentService _commentService;
+
+        public PostService(ApplicationDbContext context, ICommentService commentService, ILogger<PostService> logger)
         {
-            this.context = context;
-            this.logger = logger;
+            _context = context;
+            _logger = logger;
+            _commentService = commentService;
         }
 
         public void ChangePostStatus(int postId, short status)
         {
-            var post = context.Posts.FirstOrDefault(p => p.Id == postId);
+            var post = _context.Posts.FirstOrDefault(p => p.Id == postId);
 
             if(post != null)
             {
                 post.Status = status;
 
-                context.Posts.Update(post);
+                _context.Posts.Update(post);
 
-                context.SaveChanges();
+                _context.SaveChanges();
             }
         }
 
@@ -48,12 +51,12 @@ namespace BlogsApp.Services
         {
             try
             {
-                var publishedPosts = this.context.Posts.Where(p => p.Status == 2);
+                var publishedPosts = this._context.Posts.Where(p => p.Status == 2);
 
                 var result = new List<PostViewModel>();
                 foreach (var post in publishedPosts)
                 {
-                    var writer = context.Users.FirstOrDefault(u => u.Id == post.OwnerId);
+                    var writer = _context.Users.FirstOrDefault(u => u.Id == post.OwnerId);
 
                     result.Add(new PostViewModel(
                         post.Id,
@@ -66,7 +69,7 @@ namespace BlogsApp.Services
             }
             catch(Exception ex)
             {
-                logger.LogError(ex.Message, ex);
+                _logger.LogError(ex.Message, ex);
                 return new List<PostViewModel>();
             }
         }

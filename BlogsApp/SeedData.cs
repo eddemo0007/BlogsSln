@@ -90,7 +90,6 @@ namespace BlogsApp
             {
                 return;
             }
-
             context.Posts.AddRange(
                 new Post
                 {
@@ -100,24 +99,41 @@ namespace BlogsApp
                     OwnerId = userId,
                     Status = 1
                 },
-                 new Post
-                 {
-                     Title = "Test Post 2",
-                     Content = "This is the content of th post...",
-                     PublishDate = DateTime.Now,
-                     OwnerId = userId,
-                     Status = 2
-                 },
-                  new Post
-                  {
-                      Title = "Test Post 3",
-                      Content = "This is the content of th post...",
-                      PublishDate = DateTime.Now,
-                      OwnerId = userId,
-                      Status = 3
-                  }
+                    new Post
+                    {
+                        Title = "Test Post 2",
+                        Content = "This is the content of th post...",
+                        PublishDate = DateTime.Now,
+                        OwnerId = userId,
+                        Status = 2,
+                        Comments = new List<Comment>
+                        {
+                            new Comment
+                        {
+                            Content = "Content of comment 1",
+                            PostId = 2,
+                            PublishDate = DateTime.Now
+                        },
+                        new Comment
+                        {
+                            Content = "Content of comment 2",
+                            PostId = 2,
+                            PublishDate = DateTime.Now
+                        }
+                        }
+                    },
+                    new Post
+                    {
+                        Title = "Test Post 3",
+                        Content = "This is the content of th post...",
+                        PublishDate = DateTime.Now,
+                        OwnerId = userId,
+                        Status = 3
+                    }
             );
+
             context.SaveChanges();
+
         }
     }
 }
