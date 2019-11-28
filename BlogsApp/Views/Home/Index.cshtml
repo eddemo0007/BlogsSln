@@ -1,0 +1,14 @@
+﻿@model IList<PostViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    @foreach(var p in Model)
+    {
+        <div>
+            <div>@p.Title</div>
+            <div>@p.Content</div>
+        </div>
+    }
+</div>
