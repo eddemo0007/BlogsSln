@@ -96,6 +96,7 @@ namespace BlogsApp.Services
             {
                 result.Add(new PostViewModel
                 {
+                    Id = p.Id,
                     Comments = _commentService.GetCommentsByPost(p.Id),
                     Content = p.Content,
                     PublishDate = p.PublishDate,

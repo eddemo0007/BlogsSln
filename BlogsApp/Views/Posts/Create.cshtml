@@ -4,39 +4,77 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-    <form method="post" asp-action="Create">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label for="txtPostTitle">Post Title</label>
-            <input id="txtPostTitle" asp-for="Title" class="form-control" placeholder="Enter the post title" />
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label for="txtPostContent">Post Content</label>
-            @Html.EditorFor(m => m.Content, new { htmlAttributes = new { id = "txtPostContent", @class = "form-control" } })
-            <span asp-validation-for="Content" class="text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    <br/>
-    <section 
-    <div class="row">
-        <div class="col-md">
-            <h3>Created Posts</h3>
-        </div>
-    </div>
-    @foreach(var cp in Model.CreatedPosts)
-    {
+    <div>
+        <form method="post" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label for="txtPostTitle">Post Title</label>
+                <input id="txtPostTitle" asp-for="Title" class="form-control" placeholder="Enter the post title" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="txtPostContent">Post Content</label>
+                @Html.EditorFor(m => m.Content, new { htmlAttributes = new { id = "txtPostContent", @class = "form-control" } })
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <br />
         <div class="row">
-            <div class="col-md-8">
-                <strong>@cp.Title</strong>
-            </div>
-            <div class="col-md-4">
-                @cp.PublishDate.ToString("dd-MM-yyyy")
+            <div class="col-md">
+                <h3>Created Posts</h3>
             </div>
         </div>
-    }
-    
-</div>
+        <div class="accordion" id="createdPostAccordion">
+            @foreach (var cp in Model.CreatedPosts)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <!--<h2 class="mb-0">-->
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#createdPost-@cp.Id" aria-expanded="false" aria-controls="createdPost-@cp.Id">
+                            @cp.Title
+                        </button>
+                        <div class="float-right">
+                            @cp.PublishDate.ToString("dd-MM-yyyy")
+                        </div>
+                        <!--</h2>-->
+                    </div>
+                    <div id="createdPost-@cp.Id" class="collapse" aria-labelledby="@cp.Id" data-parent="#createdPostAccordion">
+                        <div class="card-body">
+                            @cp.Content
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md">
+                <h3>Pending Posts</h3>
+            </div>
+        </div>
+        <div class="accordion" id="pendingPostAccordion">
+            @foreach (var pp in Model.PendingPosts)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <!--<h2 class="mb-0">-->
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#pendingPost-@pp.Id" aria-expanded="false" aria-controls="pendingPost-@pp.Id">
+                            @pp.Title
+                        </button>
+                        <div class="float-right">
+                            @pp.PublishDate.ToString("dd-MM-yyyy")
+                        </div>
+                        <!--</h2>-->
+                    </div>
+                    <div id="pendingPost-@pp.Id" class="collapse" aria-labelledby="@pp.Id" data-parent="#pendingPostAccordion">
+                        <div class="card-body">
+                            @pp.Content
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
 
