@@ -21,9 +21,9 @@ namespace BlogsApp.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Comment>()
-                .HasOne("ParentPost")
-                .WithMany("Comments");
+            builder.Entity<Post>()
+                .HasMany(p => p.Comments)
+                .WithOne(c => c.Post);
         }
     }
 }

@@ -19,14 +19,18 @@ namespace BlogsApp.Services
             _context = context;
             _logger = logger;
         }
-        public IList<CommentModel> GetCommentsByPost(int postId)
+        public IList<CommentViewModel> GetCommentsByPost(int postId)
         {
-            var comments = _context.Comments.Where(c => c.PostId == postId).OrderBy(c => c.PublishDate);
+            var comments = _context.Comments.Where(c => c.Post.Id == postId).OrderBy(c => c.PublishDate);
 
-            var result = new List<CommentModel>();
+            var result = new List<CommentViewModel>();
             foreach(var c in comments)
             {
-                result.Add(new CommentModel(c.Content, c.PublishDate));
+                result.Add(new CommentViewModel
+                {
+                    Content = c.Content,
+                    PublishDate = c.PublishDate
+                });
             }
 
             return result;

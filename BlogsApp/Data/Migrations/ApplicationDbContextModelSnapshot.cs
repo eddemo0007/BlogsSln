@@ -102,7 +102,7 @@ namespace BlogsApp.Data.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PostId")
+                    b.Property<int?>("PostId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("PublishDate")
@@ -112,7 +112,7 @@ namespace BlogsApp.Data.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("BlogsApp.Data.Entities.Post", b =>
@@ -284,11 +284,9 @@ namespace BlogsApp.Data.Migrations
 
             modelBuilder.Entity("BlogsApp.Data.Entities.Comment", b =>
                 {
-                    b.HasOne("BlogsApp.Data.Entities.Post", "ParentPost")
+                    b.HasOne("BlogsApp.Data.Entities.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PostId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -90,49 +90,60 @@ namespace BlogsApp
             {
                 return;
             }
-            context.Posts.AddRange(
-                new Post
-                {
-                    Title = "Test Post 1",
-                    Content = "This is the content of th post...",
-                    PublishDate = DateTime.Now,
-                    OwnerId = userId,
-                    Status = 1
-                },
+
+            try
+            {
+                context.Posts.AddRange(
+                    new Post
+                    {
+                        Title = "Test Post 1",
+                        Content = "This is the content of th post...",
+                        OwnerId = userId,
+                        Status = 1 //Pending
+                    },
                     new Post
                     {
                         Title = "Test Post 2",
                         Content = "This is the content of th post...",
-                        PublishDate = DateTime.Now,
+                        PublishDate = DateTime.UtcNow,
                         OwnerId = userId,
-                        Status = 2,
+                        Status = 2, //Published
                         Comments = new List<Comment>
                         {
                             new Comment
-                        {
-                            Content = "Content of comment 1",
-                            PostId = 2,
-                            PublishDate = DateTime.Now
-                        },
-                        new Comment
-                        {
-                            Content = "Content of comment 2",
-                            PostId = 2,
-                            PublishDate = DateTime.Now
-                        }
+                            {
+                                Content = "Content of comment 1",
+                                PublishDate = DateTime.UtcNow
+                            },
+                            new Comment
+                            {
+                                Content = "Content of comment 2",
+                                PublishDate = DateTime.UtcNow
+                            }
                         }
                     },
                     new Post
                     {
                         Title = "Test Post 3",
                         Content = "This is the content of th post...",
-                        PublishDate = DateTime.Now,
                         OwnerId = userId,
-                        Status = 3
+                        Status = 3 //Rejected
+                    },
+                    new Post
+                    {
+                        Title = "Test Post 4",
+                        Content = "This is the content of th post...",
+                        OwnerId = userId,
+                        Status = 4 //Created
                     }
-            );
+                );
 
-            context.SaveChanges();
+                context.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
 
         }
     }

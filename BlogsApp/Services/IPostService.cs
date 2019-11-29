@@ -10,10 +10,14 @@ namespace BlogsApp.Services
     {
         IList<PostViewModel> GetPublishedPosts();
 
-        IList<PostViewModel> GetPostByUser(string userId);
+        IList<PostViewModel> GetPostByUserAndStatus(string userName, PostStatus status);
 
         void ChangePostStatus(int postId, short status);
 
         void UpdatePost(PostViewModel updatedPost);
+
+        void CreatePost(string title, string content, string user);
+
+        void DeletePost(int postId);
     }
 }

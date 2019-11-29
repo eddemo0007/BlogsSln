@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogsApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191127231556_Comments")]
-    partial class Comments
+    [Migration("20191129140556_comments")]
+    partial class comments
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -104,7 +104,7 @@ namespace BlogsApp.Data.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PostId")
+                    b.Property<int?>("PostId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("PublishDate")
@@ -114,7 +114,7 @@ namespace BlogsApp.Data.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("BlogsApp.Data.Entities.Post", b =>
@@ -286,11 +286,9 @@ namespace BlogsApp.Data.Migrations
 
             modelBuilder.Entity("BlogsApp.Data.Entities.Comment", b =>
                 {
-                    b.HasOne("BlogsApp.Data.Entities.Post", "ParentPost")
+                    b.HasOne("BlogsApp.Data.Entities.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PostId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

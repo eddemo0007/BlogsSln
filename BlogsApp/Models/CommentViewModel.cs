@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlogsApp.Data.Entities
+namespace BlogsApp.Models
 {
-    public class Comment
+    public class CommentViewModel
     {
-        public int Id { get; set; }
         public string Content { get; set; }
         public DateTime PublishDate { get; set; }
-        public Post Post { get; set; }
     }
 }

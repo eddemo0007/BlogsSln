@@ -8,6 +8,6 @@ namespace BlogsApp.Services
 {
     public interface ICommentService
     {
-        IList<CommentModel> GetCommentsByPost(int postId);
+        IList<CommentViewModel> GetCommentsByPost(int postId);
     }
 }

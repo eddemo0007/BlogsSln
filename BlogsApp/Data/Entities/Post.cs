@@ -17,7 +17,6 @@ namespace BlogsApp.Data.Entities
         public string Title { get; set; }
         [Required]
         public string Content { get; set; }
-        [Required]
         public DateTime PublishDate { get; set; }
         [Required]
         public short Status { get; set; } = 1;

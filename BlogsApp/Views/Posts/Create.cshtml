@@ -1,0 +1,42 @@
+﻿@model ManagePostViewModel
+@{
+    ViewData["Title"] = "Create Post";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <form method="post" asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label for="txtPostTitle">Post Title</label>
+            <input id="txtPostTitle" asp-for="Title" class="form-control" placeholder="Enter the post title" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="txtPostContent">Post Content</label>
+            @Html.EditorFor(m => m.Content, new { htmlAttributes = new { id = "txtPostContent", @class = "form-control" } })
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <br/>
+    <section 
+    <div class="row">
+        <div class="col-md">
+            <h3>Created Posts</h3>
+        </div>
+    </div>
+    @foreach(var cp in Model.CreatedPosts)
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <strong>@cp.Title</strong>
+            </div>
+            <div class="col-md-4">
+                @cp.PublishDate.ToString("dd-MM-yyyy")
+            </div>
+        </div>
+    }
+    
+</div>
+
