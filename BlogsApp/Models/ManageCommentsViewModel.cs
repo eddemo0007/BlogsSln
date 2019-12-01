@@ -6,17 +6,14 @@ using System.Threading.Tasks;
 
 namespace BlogsApp.Models
 {
-    public class ManagePostViewModel
+    public class ManageCommentsViewModel
     {
-        [Required(ErrorMessage = "Title is required")]
-        public string Title { get; set; }
-
         [Required(ErrorMessage = "Content is required")]
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
 
-        public IList<PostViewModel> CreatedPosts { get; set; }
-        public IList<PostViewModel> PendingPosts { get; set; }
-        public IList<PostViewModel> RejectedPosts { get; set; }
+        public int PostId { get; set; }
+
+        public PostViewModel Post { get; set; }
     }
 }

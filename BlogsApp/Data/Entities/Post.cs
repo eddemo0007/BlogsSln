@@ -13,9 +13,10 @@ namespace BlogsApp.Data.Entities
         [MaxLength(450)]
         public string OwnerId { get; set; }
         [Required]
-        [MaxLength(512)]
+        [MaxLength(128)]
         public string Title { get; set; }
         [Required]
+        [MaxLength(512)]
         public string Content { get; set; }
         public DateTime PublishDate { get; set; }
         [Required]

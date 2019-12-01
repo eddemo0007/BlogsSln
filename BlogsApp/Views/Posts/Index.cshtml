@@ -1,28 +1,13 @@
-﻿@model ManagePostViewModel
+﻿@model PostIndexViewModel
 @{
-    ViewData["Title"] = "Create Post";
+    ViewData["Title"] = "Pending Work";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>Create a Post</h1>
+
+<h1>My Pending Work</h1>
 <hr />
-<div>
-    <form method="post" asp-action="Create">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label for="txtPostTitle">Post Title</label>
-            <input id="txtPostTitle" asp-for="Title" class="form-control" placeholder="Enter the post title" />
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label for="txtPostContent">Post Content</label>
-            @Html.EditorFor(m => m.Content, new { htmlAttributes = new { id = "txtPostContent", @class = "form-control" } })
-            <span asp-validation-for="Content" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-    </form>
-    <br />
+@if (Model.CreatedPosts != null && Model.CreatedPosts.Count > 0)
+{
     <div class="row">
         <div class="col-md">
             <h3>Created Posts</h3>
@@ -48,7 +33,7 @@
                         <div class="row">
                             <div class="col-md">
                                 <a class="nav-link float-right" asp-action="Edit" asp-route-id="@cp.Id">Edit</a>
-                                <input class="btn btn-primary float-right button-action-margin" type="button" onclick="location.href='@Url.Action("Publish", "Posts", new { id = cp.Id })'" value="Publish" />
+                                <input class="btn btn-primary float-right" type="button" onclick="location.href='@Url.Action("Publish", "Posts", new { id = cp.Id })'" value="Publish" />
                             </div>
                         </div>
                     </div>
@@ -57,6 +42,9 @@
         }
     </div>
     <br />
+}
+@if (Model.PendingPosts != null && Model.PendingPosts.Count > 0)
+{
     <div class="row">
         <div class="col-md">
             <h3>Pending Posts</h3>
@@ -78,12 +66,26 @@
                                 @pp.Content
                             </div>
                         </div>
+                        <hr/>
+                        @if (User.IsInRole("Editor"))
+                        {
+                            <div class="row">
+                                <div class="col-md">
+                                    <input class="btn btn-danger float-right" type="button" onclick="location.href='@Url.Action("Remove", "Posts", new { id = pp.Id })'" value="Delete" />
+                                    <input class="btn btn-warning float-right button-action-margin" type="button" onclick="location.href='@Url.Action("Reject", "Posts", new { id = pp.Id })'" value="Reject" />
+                                    <input class="btn btn-primary float-right button-action-margin" type="button" onclick="location.href='@Url.Action("Approve", "Posts", new { id = pp.Id })'" value="Approve" />
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
         }
     </div>
     <br />
+}
+@if (Model.RejectedPosts != null && Model.RejectedPosts.Count > 0)
+{
     <div class="row">
         <div class="col-md">
             <h3>Rejected Posts</h3>
@@ -106,16 +108,29 @@
                             </div>
                         </div>
                         <hr />
-                        <div class="row">
-                            <div class="col-md">
-                                <a class="nav-link float-right" asp-action="Edit" asp-route-id="@rp.Id">Edit</a>
-                                <input class="btn btn-primary float-right button-action-margin" type="button" onclick="location.href='@Url.Action("Publish", "Posts", new { id = rp.Id })'" value="Publish" />
+                        @if (User.IsInRole("Editor"))
+                        {
+                            <div class="row">
+                                <div class="col-md">
+                                    <input class="btn btn-danger float-right" type="button" onclick="location.href='@Url.Action("Delete", "Posts", new { id = rp.Id })'" value="Delete" />
+                                    <input class="btn btn-primary float-right button-action-margin" type="button" onclick="location.href='@Url.Action("Approve", "Posts", new { id = rp.Id })'" value="Approve" />
+                                </div>
                             </div>
-                        </div>
+                        }
+                        @if (User.IsInRole("Writer"))
+                        {
+                            <div class="row">
+                                <div class="col-md">
+                                    <a class="nav-link float-right" asp-action="Edit" asp-route-id="@rp.Id">Edit</a>
+                                    <input class="btn btn-primary float-right button-action-margin" type="button" onclick="location.href='@Url.Action("Publish", "Posts", new { id = rp.Id })'" value="Publish" />
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
         }
     </div>
-</div>
+    <br/>
+}
 

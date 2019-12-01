@@ -44,7 +44,7 @@ namespace BlogsApp
                     EmailConfirmed = true,
                     Email = userName
                 };
-                var result = await userManager.CreateAsync(user, userPwd);
+                await userManager.CreateAsync(user, userPwd);
             }
 
             if (user == null)
@@ -57,7 +57,7 @@ namespace BlogsApp
 
         private static async  Task<IdentityResult> EnsureRole(IServiceProvider serviceProvider, string uid, string role)
         {
-            IdentityResult ir = null;
+            IdentityResult ir;
             var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
 
             if(roleManager == null)

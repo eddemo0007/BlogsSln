@@ -2,13 +2,38 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    @foreach(var p in Model)
+<div class="accordion" id="publishedPostAccordion">
+    @foreach (var pp in Model)
     {
-        <div>
-            <div>@p.Title</div>
-            <div>@p.Content</div>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-10">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#publishedPost-@pp.Id" aria-expanded="false" aria-controls="publishedPost-@pp.Id">
+                            @pp.Title
+                        </button>
+                        <br />
+                        <small>Posted by @pp.Writer.Name @pp.Writer.LastName - @pp.Writer.Email</small>
+                    </div>
+                    <div class="col-md-2">
+                        @TimeZoneInfo.ConvertTimeFromUtc(pp.PublishDate.Value, TimeZoneInfo.Local).ToString("dd-MM-yyyy")
+                    </div>
+                </div>
+            </div>
+            <div id="publishedPost-@pp.Id" class="collapse" aria-labelledby="@pp.Id" data-parent="#publishedPostAccordion">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md">
+                            @pp.Content
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <input class="btn btn-primary float-right" type="button" onclick="location.href='@Url.Action("Comment", "Posts", new { id = pp.Id })'" value="Add Comment" />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     }
 </div>

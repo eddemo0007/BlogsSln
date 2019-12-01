@@ -11,8 +11,11 @@ namespace BlogsApp.Services
         IList<PostViewModel> GetPublishedPosts();
 
         IList<PostViewModel> GetPostByUserAndStatus(string userName, PostStatus status);
+        IList<PostViewModel> GetPostByStatus(PostStatus status);
 
-        void ChangePostStatus(int postId, short status);
+        Task<PostViewModel> GetPostByIdAsync(int? id);
+
+        void ChangePostStatus(int? postId, PostStatus status);
 
         void UpdatePost(PostViewModel updatedPost);
 

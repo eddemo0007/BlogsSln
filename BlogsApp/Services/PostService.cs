@@ -29,13 +29,13 @@ namespace BlogsApp.Services
         /// </summary>
         /// <param name="postId">Post identifier</param>
         /// <param name="status">New status</param>
-        public void ChangePostStatus(int postId, short status)
+        public void ChangePostStatus(int? postId, PostStatus status)
         {
             var post = _context.Posts.FirstOrDefault(p => p.Id == postId);
 
             if(post != null)
             {
-                post.Status = status;
+                post.Status = (short)status;
 
                 _context.Posts.Update(post);
 
@@ -85,11 +85,60 @@ namespace BlogsApp.Services
             _context.SaveChanges();
         }
 
+        public async Task<PostViewModel> GetPostByIdAsync(int? id)
+        {
+            var postEntity = await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == postEntity.OwnerId);
+
+            return new PostViewModel
+            {
+                Id = postEntity.Id,
+                Comments = _commentService.GetCommentsByPost(postEntity.Id),
+                Content = postEntity.Content,
+                Title = postEntity.Title,
+                PublishDate = postEntity.PublishDate,
+                Writer = new WriterViewModel
+                {
+                    Email = user.Email,
+                    LastName = user.LastName,
+                    Name = user.Name
+                }
+            };
+        }
+
+        public IList<PostViewModel> GetPostByStatus(PostStatus status)
+        {
+            var posts = _context.Posts.Where(p => p.Status == (short)status).OrderByDescending(p => p.PublishDate);
+
+            var result = new List<PostViewModel>();
+            foreach (var p in posts)
+            {
+                var user = _context.Users.FirstOrDefault(u => u.Id == p.OwnerId);
+
+                result.Add(new PostViewModel
+                {
+                    Id = p.Id,
+                    Comments = _commentService.GetCommentsByPost(p.Id),
+                    Content = p.Content,
+                    PublishDate = p.PublishDate,
+                    Title = p.Title,
+                    Writer = new WriterViewModel
+                    {
+                        Email = user.Email,
+                        LastName = user.LastName,
+                        Name = user.Name
+                    }
+                });
+            }
+            return result;
+        }
+
         public IList<PostViewModel> GetPostByUserAndStatus(string userName, PostStatus status)
         {
             var user = this.GetUser(userName);
 
-            var posts = _context.Posts.Where(p => p.OwnerId == user.Id && p.Status == (short)status).OrderBy(p => p.PublishDate);
+            var posts = _context.Posts.Where(p => p.OwnerId == user.Id && p.Status == (short)status).OrderByDescending(p => p.PublishDate);
 
             var result = new List<PostViewModel>();
             foreach(var p in posts)
@@ -120,7 +169,7 @@ namespace BlogsApp.Services
         {
             try
             {
-                var publishedPosts = this._context.Posts.Where(p => p.Status == (short)PostStatus.Published);
+                var publishedPosts = this._context.Posts.Where(p => p.Status == (short)PostStatus.Published).OrderByDescending(p => p.PublishDate);
 
                 var result = new List<PostViewModel>();
                 foreach (var post in publishedPosts)

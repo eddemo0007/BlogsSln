@@ -1,0 +1,56 @@
+﻿@model ManageCommentsViewModel
+@{
+    ViewData["Title"] = "Add Comment to Post";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Add Comment to Post</h1>
+<hr />
+<div class="row">
+    <div class="col-md">
+        <h4>@Model.Post.Title</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md">
+        @Model.Post.Content
+    </div>
+</div>
+<hr />
+<div>
+    <form method="post" asp-action="Comment">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <input type="hidden" id="postId" name="postId" value="@Model.Post.Id" />
+            <label for="txtCommentContent">Comment Content</label>
+            @Html.EditorFor(m => m.Content, new { htmlAttributes = new { id = "txtCommentContent", @class = "form-control" } })
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+        <br />
+        <div class="row">
+            <div class="col-md">
+                <h3>Comments</h3>
+            </div>
+        </div>
+        <div class="accordion" id="commentsAccordion">
+            @foreach (var c in Model.Post.Comments)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#comment-@c.Id" aria-expanded="false" aria-controls="comment-@c.Id">
+                            Published on @c.PublishDate.ToString("dd MMMM, yyyy")
+                        </button>
+                    </div>
+                    <div id="comment-@c.Id" class="collapse" aria-labelledby="@c.Id" data-parent="#commentsAccordion">
+                        <div class="card-body">
+                            @c.Content
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </form>
+</div>

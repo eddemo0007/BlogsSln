@@ -9,5 +9,7 @@ namespace BlogsApp.Services
     public interface ICommentService
     {
         IList<CommentViewModel> GetCommentsByPost(int postId);
+
+        void AddComent(int postId, string content);
     }
 }

@@ -13,12 +13,12 @@ namespace BlogsApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        //private readonly ILogger<HomeController> _logger;
         private readonly IPostService _postService;
 
-        public HomeController(IPostService postService, ILogger<HomeController> logger)
+        public HomeController(IPostService postService)
         {
-            _logger = logger;
+            //_logger = logger;
             _postService = postService;
         }
 
@@ -28,16 +28,5 @@ namespace BlogsApp.Controllers
             var publishedPosts = _postService.GetPublishedPosts();
             return View(publishedPosts);
         }
-
-        //public IActionResult Privacy()
-        //{
-        //    return View();
-        //}
-
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error()
-        //{
-        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
     }
 }
