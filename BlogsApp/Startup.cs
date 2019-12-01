@@ -94,6 +94,9 @@ namespace BlogsApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "API route",
+                    pattern: "api/{controller}/{action}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
