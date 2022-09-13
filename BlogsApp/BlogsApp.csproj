@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>aspnet-BlogsApp-1557C565-BBAD-44B9-AB38-8C4EE294BE68</UserSecretsId>
   </PropertyGroup>
 
