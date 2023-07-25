@@ -1,0 +1,9 @@
+﻿{
+  "projectVersion": "1.0.0",
+  "uploadAndScan": {
+    "appName": "BlogEngine.NET",
+    "fileFolderPath": [
+      ".veracode/build"
+    ]
+  }
+}
